@@ -1,6 +1,6 @@
-from models import NanogramClues
+from models import NonogramClues
 
-CLUES = NanogramClues(
+CLUES = NonogramClues(
     columns=[
         [3,2],
         [1,2,3],

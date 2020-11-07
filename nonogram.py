@@ -2,13 +2,13 @@ from pyeasyga import pyeasyga
 from collections import namedtuple
 import random
 import numpy as np
-from visualize import NanogramSolutionVisualizer
-from models import NanogramSolution
+from visualize import NonogramSolutionVisualizer
+from models import NonogramSolution
 import matplotlib.pyplot as plt
 
 Iteration = namedtuple('Iteration', 'number average_fitness best_fitness best_individual')
 
-class NanogramGA:
+class NonogramGA:
     def __init__(self, clues, fitness_function, **pyeasyga_parameters):
         self.__clues = clues
         self.__fitness_function = fitness_function
@@ -37,10 +37,10 @@ class NanogramGA:
             yield iteration
 
     def show_best_solution(self):
-        visualizer = NanogramSolutionVisualizer()
+        visualizer = NonogramSolutionVisualizer()
         last_iteration = self.__iterations[-1]
-        solution = NanogramSolution(self.__clues, last_iteration.best_individual)
-        visualizer.set_nanogram_solution(solution)
+        solution = NonogramSolution(self.__clues, last_iteration.best_individual)
+        visualizer.set_nonogram_solution(solution)
         visualizer.show()
     
     def show_statistics(self):

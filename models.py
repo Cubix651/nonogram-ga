@@ -1,11 +1,11 @@
 import numpy as np
 
-class NanogramClues:
+class NonogramClues:
     def __init__(self, columns, rows):
         self.columns = np.array(columns, dtype=object)
         self.rows = np.array(rows, dtype=object)
 
-class NanogramSolution:
+class NonogramSolution:
     def __init__(self, clues, solution):
         self.clues = clues
         self.solution = np.array(solution).reshape(len(clues.columns), len(clues.rows))
@@ -14,7 +14,7 @@ class NanogramSolution:
         self.column_correctness = (self.clues.columns == self.solution_clues.columns)
 
     def __get_clues(self, solution):
-        return NanogramClues(
+        return NonogramClues(
             columns = self.__get_clues_for_one_orientation(self.solution.T),
             rows = self.__get_clues_for_one_orientation(self.solution)
         )

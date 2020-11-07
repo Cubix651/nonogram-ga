@@ -1,27 +1,27 @@
 import numpy as np
-from models import NanogramSolution
+from models import NonogramSolution
 from data import CLUES
-from nanogram import NanogramGA
+from nonogram import NonogramGA
 from tqdm import tqdm
 import editdistance
 
-def nanogram_fitness(one_line):
+def nonogram_fitness(one_line):
     def helper(chromosome, clues):
-        ns = NanogramSolution(clues, chromosome)
+        ns = NonogramSolution(clues, chromosome)
         def one_orientation(expected, actual):
             return sum(one_line(x, y) for x, y in zip(expected, actual))
         return one_orientation(clues.rows, ns.solution_clues.rows) + one_orientation(clues.columns, ns.solution_clues.columns)
     return helper
 
-@nanogram_fitness
+@nonogram_fitness
 def fitness1(expected, actual):
     return 1 if expected == actual else 0
 
-@nanogram_fitness
+@nonogram_fitness
 def fitness2(expected, actual):
     return -editdistance.eval(expected, actual)
 
-@nanogram_fitness
+@nonogram_fitness
 def fitness3(expected, actual):
     min_len = min(len(expected), len(actual))
     value_diff = np.sum(np.abs(np.array(expected[:min_len]) - np.array(actual[:min_len])))
@@ -30,7 +30,7 @@ def fitness3(expected, actual):
 
 def main():
     generations = 150
-    nga = NanogramGA(
+    nga = NonogramGA(
         CLUES,
         fitness3,
         population_size=500,
