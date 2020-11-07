@@ -5,22 +5,28 @@ from nanogram import NanogramGA
 from tqdm import tqdm
 import editdistance
 
-def fitness1(chromosome, clues):
-    nanogram_solution = NanogramSolution(clues, chromosome)
-    return np.sum(nanogram_solution.row_correctness) + np.sum(nanogram_solution.column_correctness)
+def nanogram_fitness(one_line):
+    def helper(chromosome, clues):
+        ns = NanogramSolution(clues, chromosome)
+        def one_orientation(expected, actual):
+            return sum(one_line(x, y) for x, y in zip(expected, actual))
+        return one_orientation(clues.rows, ns.solution_clues.rows) + one_orientation(clues.columns, ns.solution_clues.columns)
+    return helper
 
-def fitness2(chromosome, clues):
-    ns = NanogramSolution(clues, chromosome)
-    a = [editdistance.eval(x, y) for x, y in zip(ns.solution_clues.rows, clues.rows)]
-    b = [editdistance.eval(x, y) for x, y in zip(ns.solution_clues.columns, clues.columns)]
-    return -(sum(a)+sum(b))
+@nanogram_fitness
+def fitness1(expected, actual):
+    return 1 if expected == actual else 0
+
+@nanogram_fitness
+def fitness2(expected, actual):
+    return -editdistance.eval(expected, actual)
 
 def main():
-    generations = 300
+    generations = 50
     nga = NanogramGA(
         CLUES,
-        fitness2,
-        population_size=1000,
+        fitness1,
+        population_size=200,
         generations=generations,
         mutation_probability=0.05,
         elitism=True
