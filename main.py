@@ -21,12 +21,19 @@ def fitness1(expected, actual):
 def fitness2(expected, actual):
     return -editdistance.eval(expected, actual)
 
+@nanogram_fitness
+def fitness3(expected, actual):
+    min_len = min(len(expected), len(actual))
+    value_diff = np.sum(np.abs(np.array(expected[:min_len]) - np.array(actual[:min_len])))
+    len_diff = abs(len(expected)-len(actual))
+    return -(value_diff + len_diff)
+
 def main():
-    generations = 50
+    generations = 150
     nga = NanogramGA(
         CLUES,
-        fitness1,
-        population_size=200,
+        fitness3,
+        population_size=500,
         generations=generations,
         mutation_probability=0.05,
         elitism=True
