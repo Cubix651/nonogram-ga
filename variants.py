@@ -74,10 +74,10 @@ class ExtendedVariant(IVariant):
             row[chosen] += 1
         return row[:-1]
 
-    @staticmethod
-    def create_individual(clues):
+    @classmethod
+    def create_individual(cls, clues):
         width = len(clues.columns)
-        return [ExtendedVariant.create_row(clue, width) for clue in clues.rows]
+        return [cls.create_row(clue, width) for clue in clues.rows]
 
     @staticmethod
     def crossover(parent_1, parent_2):
