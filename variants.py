@@ -70,17 +70,21 @@ class ExtendedVariant(BasicDiffsVariant):
         return one_orientation(clues.rows, ns.solution_clues.rows) + one_orientation(clues.columns, ns.solution_clues.columns)
 
     @staticmethod
-    def create_row(clue, width):
+    def create_repr(left, length):
+        row = [0 for _ in range(length)]
+        for _ in range(left):
+            chosen = random.randrange(0, len(row))
+            row[chosen] += 1
+        return row
+        
+    @classmethod
+    def create_row(cls, clue, width):
         if not clue:
             return []
         c = np.array(clue)
         reserved = np.sum(c) + len(c) - 1
         left = width - reserved
-        row = [0  for _ in range(len(c)+1)]
-        for _ in range(left):
-            chosen = random.randrange(0, len(row))
-            row[chosen] += 1
-        return row
+        return cls.create_repr(left, len(c)+1)
 
     @classmethod
     def create_individual(cls, clues):
@@ -94,14 +98,12 @@ class ExtendedVariant(BasicDiffsVariant):
         child_2 = parent_2[:index] + parent_1[index:]
         return child_1, child_2
 
-    @staticmethod
-    def mutate(individual):
-        row = random.choice(individual)
-        index = random.randrange(0, len(row)-1)
-        if row[index] > 0:
-            row[index] -= 1
-            row[index+1] += 1
-
+    @classmethod
+    def mutate(cls, individual):
+        row_index = random.randrange(len(individual))
+        old_repr = np.array(individual[row_index])
+        individual[row_index] = cls.create_repr(np.sum(old_repr), len(old_repr))
+        
     @staticmethod
     def convert_individual(clues, individual):
         ns = convertToSolution(clues, individual)
