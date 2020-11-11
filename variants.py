@@ -68,13 +68,11 @@ class ExtendedVariant(IVariant):
         c = np.array(clue)
         reserved = np.sum(c) + len(c) - 1
         left = width - reserved
-        row = []
-        row.append(random.randint(0, left))
-        left -= row[-1]
-        for _ in range(len(c)-1):
-            row.append(random.randint(0, left))
-            left -= row[-1]
-        return row
+        row = [0  for _ in range(len(c)+1)]
+        for _ in range(left):
+            chosen = random.randrange(0, len(row))
+            row[chosen] += 1
+        return row[:-1]
 
     @staticmethod
     def create_individual(clues):
