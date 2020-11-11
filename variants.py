@@ -4,6 +4,7 @@ from models import NonogramSolution
 import editdistance
 import random
 import numpy as np
+from converter import convertToSolution
 
 class IVariant(ABC):
     def modify(self, ga):
@@ -30,6 +31,10 @@ class BasicVariant(IVariant):
     def create_individual(clues):
         cells_count = len(clues.columns) * len(clues.rows)
         return [random.randint(0, 1) for _ in range(cells_count)]
+
+    @staticmethod
+    def convert_individual(clues, individual):
+        np.array(individual).reshape(len(clues.rows), len(clues.columns))
 
 class BasicWholeLineVariant(BasicVariant):
     @staticmethod
@@ -86,3 +91,8 @@ class ExtendedVariant(IVariant):
     @staticmethod
     def mutate(individual):
         pass
+
+    @staticmethod
+    def convert_individual(clues, individual):
+        ns = convertToSolution(clues, individual)
+        return ns.solution

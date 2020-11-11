@@ -21,12 +21,12 @@ class NonogramGA:
             **self.__pyeasyga_parameters
         )
         self.__variant.modify(ga)
-        
+
         ga.create_first_generation()
         for generation_number in range(ga.generations):
             ga.create_next_generation()
             average_fitness = np.average([individual[0] for individual in ga.last_generation()])
-            best_individual = np.array(ga.best_individual()[-1]).reshape(len(self.__clues.rows), len(self.__clues.columns))
+            best_individual = self.__variant.convert_individual(self.__clues, ga.best_individual()[-1])
             iteration = Iteration(generation_number, average_fitness, ga.best_individual()[0], best_individual)
             self.__iterations.append(iteration)
             yield iteration
