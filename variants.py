@@ -97,9 +97,12 @@ class ExtendedVariant(IVariant):
 
     @staticmethod
     def crossover(parent_1, parent_2):
-        index = random.randrange(1, len(parent_1))
-        child_1 = parent_1[:index] + parent_2[index:]
-        child_2 = parent_2[:index] + parent_1[index:]
+        index1 = random.randrange(1, len(parent_1))
+        index2 = random.randrange(1, len(parent_1))
+        if index2 < index1:
+            index1, index2 = index2, index1
+        child_1 = parent_1[:index1] + parent_2[index1:index2] + parent_1[index2:]
+        child_2 = parent_2[:index1] + parent_1[index1:index2] + parent_2[index2:]
         return child_1, child_2
 
     @classmethod
