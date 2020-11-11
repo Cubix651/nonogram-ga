@@ -72,7 +72,7 @@ class ExtendedVariant(IVariant):
         for _ in range(left):
             chosen = random.randrange(0, len(row))
             row[chosen] += 1
-        return row[:-1]
+        return row
 
     @classmethod
     def create_individual(cls, clues):

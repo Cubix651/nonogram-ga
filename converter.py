@@ -6,7 +6,7 @@ def convertToSolution(clues, short_repr):
     width = len(clues.columns)
     for r1, r2 in zip(short_repr, clues.rows):
         row = [0 for _ in range(width)]
-        r = np.array(r1) + 1
+        r = np.array(r1[:-1]) + 1
         r[0] -= 1
         idx = 0
         for x, y in zip(r, r2):
