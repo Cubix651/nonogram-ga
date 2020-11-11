@@ -54,13 +54,17 @@ class BasicDiffsVariant(BasicVariant):
         len_diff = abs(len(expected)-len(actual))
         return -(value_diff + len_diff)
 
-class ExtendedVariant(BasicDiffsVariant):
+class ExtendedVariant(IVariant):
     @classmethod
     def modify(cls, ga):
         ga.fitness_function = cls.fitness
         ga.create_individual = cls.create_individual
         ga.crossover_function = cls.crossover
         ga.mutate_function = cls.mutate
+
+    @abstractstaticmethod
+    def fitness_one_line(expected, actual):
+        pass
 
     @classmethod
     def fitness(cls, chromosome, clues):
@@ -108,3 +112,11 @@ class ExtendedVariant(BasicDiffsVariant):
     def convert_individual(clues, individual):
         ns = convertToSolution(clues, individual)
         return ns.solution
+
+class ExtendedDiffVariant(ExtendedVariant):
+    @staticmethod
+    def fitness_one_line(expected, actual):
+        min_len = min(len(expected), len(actual))
+        value_diff = np.sum(np.abs(np.array(expected[:min_len]) - np.array(actual[:min_len])))
+        len_diff = abs(len(expected)-len(actual))
+        return -(value_diff + len_diff)
