@@ -54,7 +54,7 @@ class BasicDiffsVariant(BasicVariant):
         len_diff = abs(len(expected)-len(actual))
         return -(value_diff + len_diff)
 
-class ExtendedVariant(IVariant):
+class ExtendedVariant(BasicDiffsVariant):
     @classmethod
     def modify(cls, ga):
         ga.fitness_function = cls.fitness
@@ -62,9 +62,12 @@ class ExtendedVariant(IVariant):
         ga.crossover_function = cls.crossover
         ga.mutate_function = cls.mutate
 
-    @staticmethod
-    def fitness(chromosome, clues):
-        pass
+    @classmethod
+    def fitness(cls, chromosome, clues):
+        ns = convertToSolution(clues, chromosome)
+        def one_orientation(expected, actual):
+            return sum(cls.fitness_one_line(x, y) for x, y in zip(expected, actual))
+        return one_orientation(clues.rows, ns.solution_clues.rows) + one_orientation(clues.columns, ns.solution_clues.columns)
 
     @staticmethod
     def create_row(clue, width):
@@ -86,11 +89,18 @@ class ExtendedVariant(IVariant):
 
     @staticmethod
     def crossover(parent_1, parent_2):
-        pass
+        index = random.randrange(1, len(parent_1))
+        child_1 = parent_1[:index] + parent_2[index:]
+        child_2 = parent_2[:index] + parent_1[index:]
+        return child_1, child_2
 
     @staticmethod
     def mutate(individual):
-        pass
+        row = random.choice(individual)
+        index = random.randrange(0, len(row)-1)
+        if row[index] > 0:
+            row[index] -= 1
+            row[index+1] += 1
 
     @staticmethod
     def convert_individual(clues, individual):
