@@ -9,24 +9,19 @@ import matplotlib.pyplot as plt
 Iteration = namedtuple('Iteration', 'number average_fitness best_fitness best_individual')
 
 class NonogramGA:
-    def __init__(self, clues, fitness_function, **pyeasyga_parameters):
+    def __init__(self, clues, variant, **pyeasyga_parameters):
         self.__clues = clues
-        self.__fitness_function = fitness_function
+        self.__variant = variant
         self.__iterations = []
         self.__pyeasyga_parameters = pyeasyga_parameters
-    
+
     def run(self):
         ga = pyeasyga.GeneticAlgorithm(
             self.__clues,
             **self.__pyeasyga_parameters
         )
-        ga.fitness_function = self.__fitness_function
-
-        def create_individual(clues):
-            cells_count = len(clues.columns) * len(clues.rows)
-            return [random.randint(0, 1) for _ in range(cells_count)]
-        ga.create_individual = create_individual
-
+        self.__variant.modify(ga)
+        
         ga.create_first_generation()
         for generation_number in range(ga.generations):
             ga.create_next_generation()
