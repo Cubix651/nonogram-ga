@@ -48,3 +48,43 @@ class BasicDiffsVariant(BasicVariant):
         value_diff = np.sum(np.abs(np.array(expected[:min_len]) - np.array(actual[:min_len])))
         len_diff = abs(len(expected)-len(actual))
         return -(value_diff + len_diff)
+
+class ExtendedVariant(IVariant):
+    @classmethod
+    def modify(cls, ga):
+        ga.fitness_function = cls.fitness
+        ga.create_individual = cls.create_individual
+        ga.crossover_function = cls.crossover
+        ga.mutate_function = cls.mutate
+
+    @staticmethod
+    def fitness(chromosome, clues):
+        pass
+
+    @staticmethod
+    def create_row(clue, width):
+        if not clue:
+            return []
+        c = np.array(clue)
+        reserved = np.sum(c) + len(c) - 1
+        left = width - reserved
+        row = []
+        row.append(random.randint(0, left))
+        left -= row[-1]
+        for _ in range(len(c)-1):
+            row.append(random.randint(0, left))
+            left -= row[-1]
+        return row
+
+    @staticmethod
+    def create_individual(clues):
+        width = len(clues.columns)
+        return [ExtendedVariant.create_row(clue, width) for clue in clues.rows]
+
+    @staticmethod
+    def crossover(parent_1, parent_2):
+        pass
+
+    @staticmethod
+    def mutate(individual):
+        pass
