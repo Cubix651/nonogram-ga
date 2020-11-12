@@ -109,12 +109,9 @@ class ExtendedVariant(IVariant):
 
     @classmethod
     def mutate(cls, individual):
-        for _ in range(5):
-            if random.random() > 0.5:
-                continue
-            row_index = random.randrange(len(individual))
-            old_repr = np.array(individual[row_index])
-            individual[row_index] = cls.create_repr(np.sum(old_repr), len(old_repr))
+        row_index = random.randrange(len(individual))
+        old_repr = np.array(individual[row_index])
+        individual[row_index] = cls.create_repr(np.sum(old_repr), len(old_repr))
         
     @staticmethod
     def convert_individual(clues, individual):
