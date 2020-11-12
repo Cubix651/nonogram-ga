@@ -75,11 +75,12 @@ class ExtendedVariant(IVariant):
 
     @staticmethod
     def create_repr(left, length):
-        row = [0 for _ in range(length)]
-        for _ in range(left):
-            chosen = random.randrange(0, len(row))
-            row[chosen] += 1
-        return row
+        row = [random.randint(0, left) for _ in range(length)]
+        row.sort()
+        result = []
+        for prev, cur in zip([0, *row], [*row, left]):
+            result.append(cur - prev)
+        return result
         
     @classmethod
     def create_row(cls, clue, width):
