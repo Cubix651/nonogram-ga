@@ -8,6 +8,9 @@ def main():
     path = 'projekt/butterfly.non'
     nr = NonReader(path)
     ns = nr.read()
+    visualizer = NonogramSolutionVisualizer()
+    visualizer.set_nonogram_solution(ns)
+    visualizer.show()
     
     parameters = {
         'generations': 20,
@@ -22,9 +25,6 @@ def main():
     for iteration in pbar:
         pbar.set_description(f'Current best: {iteration.best_fitness}, average: {iteration.average_fitness}')
     nga.show_best_solution()
-    visualizer = NonogramSolutionVisualizer()
-    visualizer.set_nonogram_solution(ns)
-    visualizer.show()
     nga.show_statistics()
 
 if __name__ == '__main__':
