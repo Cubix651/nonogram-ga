@@ -8,7 +8,7 @@ class NonogramClues:
 class NonogramSolution:
     def __init__(self, clues, solution):
         self.clues = clues
-        self.solution = np.array(solution).reshape(len(clues.columns), len(clues.rows))
+        self.solution = np.array(solution).reshape(len(clues.rows), len(clues.columns))
         self.solution_clues = self.__get_clues(self.solution)
         self.row_correctness = (self.clues.rows == self.solution_clues.rows)
         self.column_correctness = (self.clues.columns == self.solution_clues.columns)

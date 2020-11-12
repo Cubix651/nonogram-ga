@@ -16,7 +16,7 @@ class NonogramSolutionVisualizer:
         self.__nonogram_solution = nonogram_solution
     
     def __create_image(self):
-        size = tuple(np.array(self.__nonogram_solution.solution.shape) * self.__zoom)
+        size = tuple(np.array(self.__nonogram_solution.solution.shape) * self.__zoom)[::-1]
         img = Image.new( 'RGB', size, "white")
         pixels = img.load()
         self.__add_solution(pixels)
