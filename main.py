@@ -1,24 +1,30 @@
-import numpy as np
-from models import NonogramSolution
-from data import CLUES
 from nonogram import NonogramGA
 from tqdm import tqdm
 from variants import *
+from visualize import NonogramSolutionVisualizer
+from reader import NonReader
 
 def main():
-    generations = 10
-    nga = NonogramGA(
-        CLUES,
-        BasicDiffsVariant,
-        population_size=200,
-        generations=generations,
-        mutation_probability=0.05,
-        elitism=True
-    )
-    pbar = tqdm(nga.run(), total=generations)
+    path = 'projekt/butterfly.non'
+    nr = NonReader(path)
+    ns = nr.read()
+    
+    parameters = {
+        'generations': 20,
+        'population_size': 200,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedDiffVariant
+    }
+    print(parameters)
+    nga = NonogramGA(ns.clues, **parameters)
+    pbar = tqdm(nga.run(), total=parameters['generations'])
     for iteration in pbar:
         pbar.set_description(f'Current best: {iteration.best_fitness}, average: {iteration.average_fitness}')
     nga.show_best_solution()
+    visualizer = NonogramSolutionVisualizer()
+    visualizer.set_nonogram_solution(ns)
+    visualizer.show()
     nga.show_statistics()
 
 if __name__ == '__main__':
