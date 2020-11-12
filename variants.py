@@ -123,8 +123,8 @@ class ExtendedDiffVariant(ExtendedVariant):
     def fitness_one_line(expected, actual):
         min_len = min(len(expected), len(actual))
         value_diff = np.sum(np.abs(np.array(expected[:min_len]) - np.array(actual[:min_len])))
-        len_diff = abs(len(expected)-len(actual))
-        return -(value_diff + len_diff)
+        missing_sum = sum(expected[min_len:])+sum(actual[min_len:])
+        return -(value_diff + missing_sum)
 
 class ExtendedWholeLineVariant(ExtendedVariant):
     @staticmethod
