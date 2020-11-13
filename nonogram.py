@@ -31,9 +31,16 @@ class NonogramGA:
             self.__iterations.append(iteration)
             yield iteration
 
-    def print_best_solution(self):
+    def get_best_solution(self):
         last_iteration = self.__iterations[-1]
-        print(last_iteration.best_individual)
+        return last_iteration.best_individual
+
+    def get_best_fitness(self):
+        last_iteration = self.__iterations[-1]
+        return last_iteration.best_fitness
+    
+    def get_bests(self):
+        return [iteration.best_fitness for iteration in self.__iterations]
 
     def show_best_solution(self):
         visualizer = NonogramSolutionVisualizer()
@@ -44,7 +51,7 @@ class NonogramGA:
     
     def show_statistics(self):
         averages = [iteration.average_fitness for iteration in self.__iterations]
-        bests = [iteration.best_fitness for iteration in self.__iterations]
+        bests = self.get_bests()
         plt.plot(averages, 'b', label='średnie')
         plt.plot(bests, 'r', label='maksymalne')
         plt.legend()
