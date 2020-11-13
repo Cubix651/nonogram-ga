@@ -1,4 +1,4 @@
-from models import NonogramClues, NonogramSolution
+import models
 import numpy as np
 
 class NonogramConverter:
@@ -18,11 +18,11 @@ class NonogramConverter:
                 idx += y
             solution.append(row)
         solution = np.array(solution)
-        return NonogramSolution(clues, solution)
+        return models.NonogramSolution(clues, solution)
 
     @classmethod
     def convert_to_clues(cls, solution):
-        return NonogramClues(
+        return models.NonogramClues(
             columns = cls.__get_clues_for_one_orientation(solution.T),
             rows = cls.__get_clues_for_one_orientation(solution)
         )
