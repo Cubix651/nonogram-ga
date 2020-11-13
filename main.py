@@ -108,14 +108,117 @@ COMPETITORS2 = [
     })
 ]
 
+GENERATIONS3 = 50
+COMPETITORS3 = [
+    ('Ex-Diff', {
+        'generations': GENERATIONS3,
+        'population_size': 200,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedDiffVariant
+    }),
+    ('Ex-WholeLine', {
+        'generations': GENERATIONS3,
+        'population_size': 200,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedWholeLineVariant
+    }),
+    ('B-Diff', {
+        'generations': GENERATIONS3,
+        'population_size': 200,
+        'mutation_probability': 0.05,
+        'elitism': True,
+        'variant': BasicDiffsVariant
+    }),
+    ('B-EditDist', {
+        'generations': GENERATIONS3,
+        'population_size': 200,
+        'mutation_probability': 0.05,
+        'elitism': True,
+        'variant': BasicEditDistanceVariant
+    }),
+    ('B-WholeLine', {
+        'generations': GENERATIONS3,
+        'population_size': 200,
+        'mutation_probability': 0.05,
+        'elitism': True,
+        'variant': BasicWholeLineVariant
+    }),
+    ('Ex-Diff2', {
+        'generations': GENERATIONS3,
+        'population_size': 500,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedDiffVariant
+    }),
+    ('Ex-WholeLine2', {
+        'generations': GENERATIONS3,
+        'population_size': 500,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedWholeLineVariant
+    }),
+]
+
+GENERATIONS4 = 50
+COMPETITORS4 = [
+    ('Ex-Diff', {
+        'generations': GENERATIONS4,
+        'population_size': 200,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedDiffVariant
+    }),
+    ('Ex-WholeLine', {
+        'generations': GENERATIONS4,
+        'population_size': 200,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedWholeLineVariant
+    }),
+    ('Ex-Diff2', {
+        'generations': GENERATIONS4,
+        'population_size': 500,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedDiffVariant
+    }),
+    ('Ex-WholeLine2', {
+        'generations': GENERATIONS4,
+        'population_size': 500,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedWholeLineVariant
+    }),
+]
+
+GENERATIONS5 = 50
+COMPETITORS5 = [
+    ('Ex-Diff2', {
+        'generations': GENERATIONS5,
+        'population_size': 500,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedDiffVariant
+    }),
+    ('Ex-WholeLine2', {
+        'generations': GENERATIONS5,
+        'population_size': 500,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedWholeLineVariant
+    }),
+]
+
 CATEGORIES = {
     '5x5': COMPETITORS1,
     '5x10': COMPETITORS2,
     '10x5': COMPETITORS2,
-    '10x10': COMPETITORS2,
-    # '15x15',
-    # '20x20',
-    # '25x25',
+    '10x10': COMPETITORS3,
+    '15x15': COMPETITORS4,
+    '20x20': COMPETITORS5,
+    '25x25': COMPETITORS5,
 }
 
 def compare_single(category, competitors, name, path):
