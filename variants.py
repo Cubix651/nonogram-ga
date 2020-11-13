@@ -39,7 +39,12 @@ class BasicVariant(IVariant):
 class BasicWholeLineVariant(BasicVariant):
     @staticmethod
     def fitness_one_line(expected, actual):
-        return 1 if expected == actual else 0
+        return 1 if expected == list(actual) else 0
+
+    @classmethod
+    def fitness(cls, chromosome, clues):
+        ok = super().fitness(chromosome, clues)
+        return ok - len(clues.rows) - len(clues.columns)
 
 class BasicEditDistanceVariant(BasicVariant):
     @staticmethod
@@ -51,8 +56,8 @@ class BasicDiffsVariant(BasicVariant):
     def fitness_one_line(expected, actual):
         min_len = min(len(expected), len(actual))
         value_diff = np.sum(np.abs(np.array(expected[:min_len]) - np.array(actual[:min_len])))
-        len_diff = abs(len(expected)-len(actual))
-        return -(value_diff + len_diff)
+        missing_sum = sum(expected[min_len:])+sum(actual[min_len:])
+        return -(value_diff + missing_sum)
 
 class ExtendedVariant(IVariant):
     @classmethod
@@ -129,4 +134,9 @@ class ExtendedDiffVariant(ExtendedVariant):
 class ExtendedWholeLineVariant(ExtendedVariant):
     @staticmethod
     def fitness_one_line(expected, actual):
-        return 1 if expected == actual else 0
+        return 1 if expected == list(actual) else 0
+    
+    @classmethod
+    def fitness(cls, chromosome, clues):
+        ok = super().fitness(chromosome, clues)
+        return ok - len(clues.rows) - len(clues.columns)
