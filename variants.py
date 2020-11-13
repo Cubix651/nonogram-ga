@@ -4,7 +4,7 @@ from models import NonogramSolution
 import editdistance
 import random
 import numpy as np
-from converter import convertToSolution
+from converter import NonogramConverter
 
 class IVariant(ABC):
     def modify(self, ga):
@@ -68,7 +68,7 @@ class ExtendedVariant(IVariant):
 
     @classmethod
     def fitness(cls, chromosome, clues):
-        ns = convertToSolution(clues, chromosome)
+        ns = NonogramConverter.convert_to_solution(clues, chromosome)
         def one_orientation(expected, actual):
             return sum(cls.fitness_one_line(x, y) for x, y in zip(expected, actual))
         return one_orientation(clues.rows, ns.solution_clues.rows) + one_orientation(clues.columns, ns.solution_clues.columns)
@@ -115,7 +115,7 @@ class ExtendedVariant(IVariant):
         
     @staticmethod
     def convert_individual(clues, individual):
-        ns = convertToSolution(clues, individual)
+        ns = NonogramConverter.convert_to_solution(clues, individual)
         return ns.solution
 
 class ExtendedDiffVariant(ExtendedVariant):
