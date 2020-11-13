@@ -39,4 +39,6 @@ class NonogramConverter:
                 result.append(1)
             if prev == 1 and cur == 1:
                 result[-1] = result[-1]+1
+        if len(result) == 0:
+            result = [0]
         return result
