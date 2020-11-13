@@ -121,21 +121,26 @@ CATEGORIES = {
 def compare_single(category, competitors, name, path):
     nr = NonReader(path)
     ns = nr.read()
+    output_prefix = os.path.join('results', category, name)
     
     plt.figure()
     results = {}
-    for competitor in competitors:        
-        nga = NonogramGA(ns.clues, **competitor[1])
-        for _ in nga.run():
-            pass
-        plt.plot(nga.get_bests(), label=competitor[0])
-        results[competitor[0]] = nga.get_bests()[-1]
     
+    for competitor in competitors:
+        competitor_name = competitor[0]
+        nga = NonogramGA(ns.clues, **competitor[1])
+        with open(f'{output_prefix}_{competitor_name}.csv', 'w+') as f:
+            for iteration in nga.run():
+                f.write(f'{category};{name};{iteration.number};{iteration.best_fitness}\n')
+        plt.plot(nga.get_bests(), label=competitor[0])
+        results[competitor_name] = nga.get_bests()[-1]
+
     plt.legend()
     plt.title(path)
     plt.xlabel('pokolenie')
     plt.ylabel('fitness (ocena)')
-    plt.savefig(os.path.join('results', category, name + '.png'))
+    plt.savefig(output_prefix + '.png')
+    plt.close()
     return results
 
 def compare():
