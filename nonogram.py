@@ -31,6 +31,10 @@ class NonogramGA:
             self.__iterations.append(iteration)
             yield iteration
 
+    def print_best_solution(self):
+        last_iteration = self.__iterations[-1]
+        print(last_iteration.best_individual)
+
     def show_best_solution(self):
         visualizer = NonogramSolutionVisualizer()
         last_iteration = self.__iterations[-1]
