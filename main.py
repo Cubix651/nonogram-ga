@@ -211,6 +211,24 @@ COMPETITORS5 = [
     }),
 ]
 
+GENERATIONS6 = 100
+COMPETITORS6 = [
+    ('Ex-Diff2', {
+        'generations': GENERATIONS6,
+        'population_size': 500,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedDiffVariant
+    }),
+    ('Ex-Diff3', {
+        'generations': GENERATIONS6,
+        'population_size': 3000,
+        'mutation_probability': 1,
+        'elitism': True,
+        'variant': ExtendedDiffVariant
+    }),
+]
+
 CATEGORIES = {
     '5x5': COMPETITORS1,
     '5x10': COMPETITORS2,
@@ -219,6 +237,7 @@ CATEGORIES = {
     '15x15': COMPETITORS4,
     '20x20': COMPETITORS5,
     '25x25': COMPETITORS5,
+    'butterfly': COMPETITORS6,
 }
 
 def compare_single(category, competitors, name, path):
@@ -247,7 +266,7 @@ def compare_single(category, competitors, name, path):
     return results
 
 def compare():
-    with open('results/summary.csv', 'w+') as f:
+    with open('results/summary.csv', 'a+') as f:
         for category in tqdm(CATEGORIES):
             for filename in tqdm(os.listdir(f'db/{category}')):
                 path = os.path.join('db', category, filename)
