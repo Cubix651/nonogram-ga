@@ -87,7 +87,7 @@ def create_row(clue, width):
 
 Tutaj jednak dużo bardziej prawdopodobne były rozwiązania, które miały równomierny rozkład pomięzy przerwy.
 
-Ostatecznie zaimplementowałem następującą funkcję `ExtendedVariant.create_row()` w pliku [variants.py](variansts.py):
+Ostatecznie zaimplementowałem następującą funkcję `ExtendedVariant.create_row()` w pliku [variants.py](variants.py):
 
 ```python
 @classmethod
@@ -119,7 +119,7 @@ Poszczególne warianty różnią się także zastosowaną funkcją fitness.
 
 * `WholeLine` - w tej funkcji fitness liczone są ograniczenia, które nie zostały spełnione. Za każde odejmowany jest 1 punkt karny. Rozwiązanie optymalne będzie miało wartość 0, zaś najgorsze -(suma wysokości i szerokości nonogramu). 
 * `EditDistance`  - funkcja ta konwertuje potencjalne rozwiązanie na opisy wierszy i kolumn, a następnie dla każdego wiersza i kolumny liczy odległość edycyjną pomiędzy opisem wygenerowanym, a oczekiwanym. Funkcja zwraca -(suma odległości). Optymalne rozwiązanie ma wartość 0, wszyskie inne zaś mają wartości ujemne. Funkcja ta jest mniej restrykcyjna, niż powyższa - bada podobieństwo poszczegónych wierszy i kolumn i zwraca wartości z większego zakresu niż $[0;1]$.
-* `Diff - ` funkcja ta konwertuje wiersze i kolumny jak powyżej, jednak tym razem liczy sumę wartości bezwzględnych różnicy odpowiadających sobie elementów pomiędzy wygenerowanym napisem, a oczekiwanym. Jeśli któreś z napisów jest dłuższy to "wystające" elementy są również dodawane. Ostateczny wynik to -(suma wszystkich tak zdefiniowanych wartości). Ta funkcja jest najmniej restrykcyjna i najbardzie rozróżnia rozwiązania. Oczywiście optymalne rozwiązanie otrzymuje wartość 0.
+* `Diff` - funkcja ta konwertuje wiersze i kolumny jak powyżej, jednak tym razem liczy sumę wartości bezwzględnych różnicy odpowiadających sobie elementów pomiędzy wygenerowanym napisem, a oczekiwanym. Jeśli któreś z napisów jest dłuższy to "wystające" elementy są również dodawane. Ostateczny wynik to -(suma wszystkich tak zdefiniowanych wartości). Ta funkcja jest najmniej restrykcyjna i najbardzie rozróżnia rozwiązania. Oczywiście optymalne rozwiązanie otrzymuje wartość 0.
 
 ```python
 def fitness_one_line(expected, actual):
@@ -161,7 +161,7 @@ def crossover(parent_1, parent_2):
 
 ## Dane testowe
 
-Swoje rozwiązania zacząłem testować na nonogramie motyla ([butterfly.non](db/butterfly/butterfly.non)). Korzystałem także z przykładów z repozytorium [nonogram-db](https://github.com/mikix/nonogram-db). Niestety zawiera ona niewiele nonogramów, zwłaszcza tych o małych wymiarach. Skorzystałem więc tylko z formatu używanego tamże i napisałem własny generator losowy nonogramów. Znajduje się on w pliku [generator.py](generator.py). Jego uruchomienie wygląda następująco:
+Swoje rozwiązania zacząłem testować na nonogramie motyla ([butterfly0.non](db/butterfly/butterfly0.non)). Korzystałem także z przykładów z repozytorium [nonogram-db](https://github.com/mikix/nonogram-db). Niestety zawiera ona niewiele nonogramów, zwłaszcza tych o małych wymiarach. Skorzystałem więc tylko z formatu używanego tamże i napisałem własny generator losowy nonogramów. Znajduje się on w pliku [generator.py](generator.py). Jego uruchomienie wygląda następująco:
 
 ```bash
 python generator.py istniejący_folder_docelowy wysokość szerokość liczba_nonogramów
